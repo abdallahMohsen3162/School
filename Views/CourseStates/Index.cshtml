@@ -12,12 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Name)
-            </th>
+            <th>State</th>
             <th></th>
         </tr>
     </thead>
@@ -25,14 +20,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.ToString()</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item">Delete</a>
                 </td>
             </tr>
         }

@@ -13,8 +13,7 @@ namespace hendi.Models.Entities
         [Required]
         public int Sort { get; set; }
         [Required]
-        public int StateId { get; set; }
-        public CourseState ?CourseState { get; set; }
+        public CourseState ?State { get; set; }
         public ICollection<CourseStudent>? CourseStudents { get; set; } = new List<CourseStudent>();
     }
 }

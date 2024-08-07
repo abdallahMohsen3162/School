@@ -1,5 +1,4 @@
-﻿
-using hendi.Models.Entities;
+﻿using hendi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using School.Models;
 
@@ -9,37 +8,25 @@ namespace School.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
         }
-
-
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
-            modelBuilder.Entity<CourseState>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired();
-            });
-
+            // Configure Course entity
             modelBuilder.Entity<Course>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired();
                 entity.Property(e => e.Sort).IsRequired();
-                entity.HasOne(e => e.CourseState)
-                      .WithMany(cs => cs.Courses)
-                      .HasForeignKey(e => e.StateId);
+                entity.Property(e => e.State)
+                      .HasConversion<string>()  // Store the enum as string in the database
+                      .IsRequired();
             });
 
+            // Configure many-to-many relationship between Course and Student
             modelBuilder.Entity<CourseStudent>()
-            .HasKey(cs => new { cs.CourseId, cs.StudentId });
+                .HasKey(cs => new { cs.CourseId, cs.StudentId });
 
-            // Optional: Configure many-to-many relationships further if needed
             modelBuilder.Entity<CourseStudent>()
                 .HasOne(cs => cs.Course)
                 .WithMany(c => c.CourseStudents)
@@ -53,11 +40,8 @@ namespace School.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<CourseState> CourseStates { get; set; }
-
         public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<CourseStudent> CourseStudents { get; set; }
-
     }
 }
