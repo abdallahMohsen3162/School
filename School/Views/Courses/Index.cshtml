@@ -1,0 +1,47 @@
+﻿@model IEnumerable<hendi.Models.Entities.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>Courses</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Create New</a>
+</p>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sort</th>
+                <th>Course State</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item?.Name</td>
+                    <td>@item?.Sort</td>
+                    <td>@item?.State.ToString()</td> <!-- Display the CourseState as string -->
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = item?.Id })" class="btn btn-warning">Edit</a> |
+                        <a href="@Url.Action("Delete", new { id = item?.Id })" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No courses available.</p>
+}
+
+<p>
+    <a asp-controller="Students" asp-action="Index" class="btn btn-secondary">Students</a>
+</p>
